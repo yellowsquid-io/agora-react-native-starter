@@ -8,27 +8,29 @@ import {
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
+import "react-native-get-random-values";
+import { v4 as uuid } from "uuid";
 
 export default function Home() {
   const navigation = useNavigation();
-  const [joinChannel, setJoinChannel] = useState('');
+  const [joinChannel, setJoinChannel] = useState('gavel');
 
-  const createLive = () => navigation.navigate('Live', { type: 'create' });
-  const joinLive = () => navigation.navigate('Live', { type: 'join' });
+  const createLive = () => navigation.navigate('Live', { type: 'create', channel: joinChannel });
+  const joinLive = () => navigation.navigate('Live', { type: 'join', channel: joinChannel });
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Livestream App</Text>
       <View style={styles.createContainer}>
         <TouchableOpacity style={styles.button} onPress={createLive}>
-          <Text style={styles.buttonText}>Start</Text>
+          <Text style={styles.buttonText}>Start as host</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.joinContainer}>
         <TextInput
           value={joinChannel}
           onChangeText={setJoinChannel}
-          placeholder="Enter Livestream Id"
+          placeholder="Room"
           style={styles.joinChannelInput}
         />
         <TouchableOpacity
@@ -38,7 +40,7 @@ export default function Home() {
             { backgroundColor: joinChannel === '' ? '#555555' : '#78b0ff' },
           ]}
           disabled={joinChannel === ''}>
-          <Text style={styles.buttonText}>Join</Text>
+          <Text style={styles.buttonText}>Join as user</Text>
         </TouchableOpacity>
       </View>
     </View>
